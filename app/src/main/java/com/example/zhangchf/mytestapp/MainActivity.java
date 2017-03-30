@@ -1,5 +1,6 @@
 package com.example.zhangchf.mytestapp;
 
+import android.animation.ObjectAnimator;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -9,6 +10,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,13 +28,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.util.Calendar;
 
@@ -55,9 +64,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
     private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
 
+    OrientationEventListener orientationEventListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,6 +119,39 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "DownloadReference:" + downloadReference);*/
             }
         });
+
+
+        orientationEventListener = new OrientationEventListener(this) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                Log.i(TAG, "Orientation: " + String.valueOf(orientation));
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        };
+
+        if (orientationEventListener.canDetectOrientation()){
+            Log.i(TAG, "Can DetectOrientation");
+            orientationEventListener.enable();
+        }
+        else{
+            Log.i(TAG, "Can not DetectOrientation");
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        doFlipAnimation();
+        doFlip3DAnimation();
+        flipCalendarView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        orientationEventListener.disable();
     }
 
     @Override
@@ -253,5 +298,57 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = Uri.parse(uriStr);
         return uri.getLastPathSegment();
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.i(TAG, "orientation landscape");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.i(TAG, "orientation portrait");
+        }
+    }
+
+    private void doFlipAnimation() {
+        ImageView imgFlipAnimation = (ImageView) findViewById(R.id.img_flip_animation);
+
+        ObjectAnimator animation = ObjectAnimator.ofFloat(imgFlipAnimation, "rotationX", 0, -180);
+        animation.setDuration(5000);
+        animation.setRepeatCount(ObjectAnimator.INFINITE);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.start();
+    }
+
+
+    private void doFlip3DAnimation() {
+        final ImageView imgFlip3DAnimation = (ImageView) findViewById(R.id.img_flip_3d_animation);
+        imgFlip3DAnimation.post(new Runnable() {
+            @Override
+            public void run() {
+                Flip3DAnimation flipAnimation = new Flip3DAnimation(0, -90, imgFlip3DAnimation.getWidth()/2, imgFlip3DAnimation.getHeight()/2);
+                flipAnimation.setDuration(5000);
+                flipAnimation.setRepeatMode(Animation.RESTART);
+                flipAnimation.setRepeatCount(Animation.INFINITE);
+
+                imgFlip3DAnimation.startAnimation(flipAnimation);
+            }
+        });
+    }
+
+    private void flipCalendarView() {
+        final FlipCalendarView flipCalendarView = (FlipCalendarView) findViewById(R.id.flipCalendarView);
+
+
+        for(int i = 0; i < 12; i++) {
+            final int finalI = i;
+            flipCalendarView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    flipCalendarView.animateTo(Integer.toString(finalI + 15));
+                }
+            }, i * 4000);
+        }
+    }
+
 
 }

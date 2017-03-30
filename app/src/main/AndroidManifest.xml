@@ -24,9 +24,30 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="http"
+                    android:host="www.example.com"
+                    android:pathPrefix="/gizmos" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- Accepts URIs that begin with "example://gizmos” -->
+                <data android:scheme="example"
+                    android:host="gizmos" />
+
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".LauncherActivity">
+
         </activity>
 
         <activity android:name=".LiveCameraActivity"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="80cd418d77b68ac63b82ed82270198e63b0a428c" />
     </application>
 
 </manifest>

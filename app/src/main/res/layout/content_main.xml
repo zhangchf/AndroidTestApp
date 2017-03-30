@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,4 +25,32 @@
         android:background="@android:color/black"
         android:alpha="1"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/img_flip_animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/textureView"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ios__launchimage"/>
+
+    <ImageView
+        android:id="@+id/img_flip_3d_animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/textureView"
+        android:layout_toRightOf="@id/img_flip_animation"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ios__launchimage"/>
+
+    <com.example.zhangchf.mytestapp.FlipCalendarView
+        android:id="@+id/flipCalendarView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:clipChildren="false"
+        android:layout_below="@id/img_flip_animation"/>
+
+</RelativeLayout>
