@@ -53,4 +53,28 @@
         android:clipChildren="false"
         android:layout_below="@id/img_flip_animation"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kotlin Activity"
+            android:onClick="onOpenKotlinActivity"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weex Activity"
+            android:onClick="onOpenWeexActivity"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Android Activity"
+            android:onClick="onOpenAndroidActivity"/>
+    </LinearLayout>
+
 </RelativeLayout>

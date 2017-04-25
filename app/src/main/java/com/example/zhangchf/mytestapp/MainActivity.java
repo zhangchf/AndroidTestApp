@@ -3,14 +3,9 @@ package com.example.zhangchf.mytestapp;
 import android.animation.ObjectAnimator;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Canvas;
@@ -23,7 +18,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -40,9 +34,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.example.zhangchf.mytestapp.weex.WeexActivity;
+
 import io.fabric.sdk.android.Fabric;
 import java.io.File;
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -131,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (orientationEventListener.canDetectOrientation()){
             Log.i(TAG, "Can DetectOrientation");
-            orientationEventListener.enable();
+//            orientationEventListener.enable();
         }
         else{
             Log.i(TAG, "Can not DetectOrientation");
@@ -339,16 +334,27 @@ public class MainActivity extends AppCompatActivity {
         final FlipCalendarView flipCalendarView = (FlipCalendarView) findViewById(R.id.flipCalendarView);
 
 
-        for(int i = 0; i < 12; i++) {
-            final int finalI = i;
-            flipCalendarView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    flipCalendarView.animateTo(Integer.toString(finalI + 15));
-                }
-            }, i * 4000);
-        }
+//        for(int i = 0; i < 12; i++) {
+//            final int finalI = i;
+//            flipCalendarView.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    flipCalendarView.animateTo(Integer.toString(finalI + 15));
+//                }
+//            }, i * 4000);
+//        }
     }
 
 
+    public void onOpenKotlinActivity(View view) {
+        startActivity(new Intent(this, KotlinActivity.class));
+    }
+
+    public void onOpenAndroidActivity(View view) {
+        startActivity(new Intent(this, WebTestActivity.class));
+    }
+
+    public void onOpenWeexActivity(View view) {
+        startActivity(new Intent(this, WeexActivity.class));
+    }
 }
