@@ -13,10 +13,6 @@
     tools:context="com.example.zhangchf.mytestapp.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <Button android:layout_height="40dp"
-        android:layout_width="100dp"
-        android:text="Do Test"
-        android:onClick="onDoTest"/>
     
     <TextureView
         android:id="@+id/textureView"
@@ -55,8 +51,13 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <Button android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Do Test"
+            android:onClick="onDoTest"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -75,6 +76,12 @@
             android:layout_height="wrap_content"
             android:text="Android Activity"
             android:onClick="onOpenAndroidActivity"/>
+
+        <Button
+            android:id="@+id/uiTestActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UI Test Activity"/>
     </LinearLayout>
 
 </RelativeLayout>

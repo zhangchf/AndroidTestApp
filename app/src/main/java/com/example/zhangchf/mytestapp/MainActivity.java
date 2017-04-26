@@ -36,6 +36,8 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.example.zhangchf.mytestapp.weex.WeexActivity;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 import java.io.File;
 
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
 
         TextureView textureView = (TextureView) findViewById(R.id.textureView);
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
@@ -138,9 +142,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        doFlipAnimation();
+/*        doFlipAnimation();
         doFlip3DAnimation();
-        flipCalendarView();
+        flipCalendarView();*/
     }
 
     @Override
@@ -356,5 +360,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onOpenWeexActivity(View view) {
         startActivity(new Intent(this, WeexActivity.class));
+    }
+
+    @OnClick(R.id.uiTestActivity)
+    public void onClickUITestActivity() {
+        startActivity(new Intent(this, UITestActivity.class));
     }
 }
