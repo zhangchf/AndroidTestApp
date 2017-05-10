@@ -18,7 +18,6 @@
         android:id="@+id/textureView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@android:color/black"
         android:alpha="1"/>
 
     <ImageView

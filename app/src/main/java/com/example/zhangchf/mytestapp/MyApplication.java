@@ -22,4 +22,6 @@ public class MyApplication extends Application {
         InitConfig config = new InitConfig.Builder().setImgAdapter(new ImageAdapter()).build();
         WXSDKEngine.initialize(this, config);
     }
+
+
 }

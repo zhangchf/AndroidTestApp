@@ -1,7 +1,9 @@
 package com.example.zhangchf.mytestapp;
 
 import android.animation.ObjectAnimator;
+import android.app.AlarmManager;
 import android.app.DownloadManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.graphics.SurfaceTexture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -145,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
 /*        doFlipAnimation();
         doFlip3DAnimation();
         flipCalendarView();*/
+
+        scheduleNotification();
     }
 
     @Override
@@ -365,5 +370,20 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.uiTestActivity)
     public void onClickUITestActivity() {
         startActivity(new Intent(this, UITestActivity.class));
+    }
+
+    private void scheduleNotification() {
+        Log.i(TAG, "scheduleNotification");
+/*        Intent serviceIntent = new Intent(this, NotificationIntentService.class);
+        serviceIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        PendingIntent pi = PendingIntent.getService(this, 1000, serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(this, -1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10 * 1000, pi);
+
+        startService(new Intent(this, AlarmService.class));
     }
 }

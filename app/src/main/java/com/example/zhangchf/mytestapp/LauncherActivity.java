@@ -15,6 +15,8 @@ public class LauncherActivity extends AppCompatActivity {
 
     TextView tvLauncherText;
 
+    boolean firstTime = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,14 +28,19 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        getWindow().getDecorView().getRootView().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeScaleUpAnimation(tvLauncherText, 0, 0, 100, 100);
-                activityOptions = ActivityOptionsCompat.makeCustomAnimation(LauncherActivity.this, R.anim.slide_in_right, R.anim.slide_out_left);
-                startActivity(new Intent(LauncherActivity.this, MainActivity.class), activityOptions.toBundle());
-            }
-        }, 5000);
+        if (firstTime) {
+            firstTime = false;
+
+            getWindow().getDecorView().getRootView().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeScaleUpAnimation(tvLauncherText, 0, 0, 100, 100);
+                    activityOptions = ActivityOptionsCompat.makeCustomAnimation(LauncherActivity.this, R.anim.slide_in_right, R.anim.slide_out_left);
+                    startActivity(new Intent(LauncherActivity.this, MainActivity.class), activityOptions.toBundle());
+//                    LauncherActivity.this.finish();
+                }
+            }, 2000);
+        }
 
     }
 }
